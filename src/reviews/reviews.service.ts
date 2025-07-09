@@ -20,13 +20,20 @@ export class ReviewsService {
     page: number = 1,
     limit: number = 10,
     onlyApproved: boolean = true,
-  ): Promise<{ data: Review[]; total: number; page: number; totalPages: number }> {
+  ): Promise<{
+    data: Review[];
+    total: number;
+    page: number;
+    totalPages: number;
+  }> {
     const queryBuilder = this.reviewRepository.createQueryBuilder('review');
 
     queryBuilder.where('review.isActive = :isActive', { isActive: true });
 
     if (onlyApproved) {
-      queryBuilder.andWhere('review.isApproved = :isApproved', { isApproved: true });
+      queryBuilder.andWhere('review.isApproved = :isApproved', {
+        isApproved: true,
+      });
     }
 
     queryBuilder
