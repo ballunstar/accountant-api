@@ -1,5 +1,5 @@
-# Use Node.js 18 Alpine as base image for smaller size
-FROM node:18-alpine AS base
+# Use Node.js 20 Alpine as base image for smaller size
+FROM node:20-alpine AS base
 
 # Set working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Development stage
-FROM node:18-alpine AS development
+FROM node:20-alpine AS development
 
 WORKDIR /app
 
@@ -31,7 +31,7 @@ EXPOSE 3002
 CMD ["npm", "run", "start:dev"]
 
 # Build stage
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -48,7 +48,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 # Create app directory
 WORKDIR /app
