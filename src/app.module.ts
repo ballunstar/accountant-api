@@ -16,6 +16,7 @@ import { Contact } from './entities/contact.entity';
 import { Review } from './entities/review.entity';
 import { Service } from './entities/service.entity';
 import { User } from './entities/user.entity';
+import { Settings } from './entities/settings.entity';
 
 // Controllers
 import { ContactsController } from './contacts/contacts.controller';
@@ -29,6 +30,7 @@ import { AuthService } from './auth/auth.service';
 
 // Auth
 import { JwtStrategy } from './auth/jwt.strategy';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -45,12 +47,12 @@ import { JwtStrategy } from './auth/jwt.strategy';
         username: configService.get('database.username'),
         password: configService.get('database.password'),
         database: configService.get('database.database'),
-        entities: [Contact, Review, Service, User],
+        entities: [Contact, Review, Service, User, Settings],
         synchronize: true, // Only for development
         logging: true,
       }),
     }),
-    TypeOrmModule.forFeature([Contact, Review, Service, User]),
+    TypeOrmModule.forFeature([Contact, Review, Service, User, Settings]),
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -59,6 +61,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
         signOptions: { expiresIn: configService.get('jwt.expiresIn') },
       }),
     }),
+    SettingsModule,
   ],
   controllers: [
     AppController,
